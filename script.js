@@ -3,13 +3,11 @@
    ============================================================ */
 
 const CONFIG = {
-  // Same Apps Script endpoint as the snack shop — orders land in the
-  // shared "Orders bánh" tab alongside the R-code (đồ khô) orders.
-  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycby2_S2yOnrGZAHG3Ce8iDzE9Mjypy_P_8wX5PKv8IL-h3-8t3xR0BhdVWCBXzN8cYa_bA/exec",
-  // ⚠️ TODO: paste the published CSV link for the "Bánh Trung Thu" tab here
-  // (Tệp > Chia sẻ > Xuất bản lên web > chọn tab "Bánh Trung Thu" > định dạng CSV).
+  // Standalone Trung Thu order sheet (its own Apps Script + Drive folder for bills).
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxZcmoP4mpPsxPH2TTPSBbQXNdjfdTcoNDjPms9fgQtnAvmRYBVLR8fI_LqeyupMzsx/exec",
+  // Published "Tồn kho" tab of the new Trung Thu sheet, exported as CSV.
   // Sheet columns: A = Món (tên bánh, phải khớp với PRODUCTS bên dưới), B = Tồn kho (số lượng)
-  INVENTORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSvIeJVT0yUnBfO6dDAyRm8vn1kp38Rclyi42pKR21zp4ZW7KT-O7VVgkJYogFlwxquXHoyz7z3NaxY/pub?gid=1654865179&single=true&output=csv",
+  INVENTORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdgUFGJB5vRXTghGyc4dyQAt-ueMnUlhKJjqR_4QqWuL1H1r5ZSzTmbhNYA-R8P-Ht9kud2xu5fD7S/pub?gid=1654865179&single=true&output=csv",
 };
 
 const PRODUCTS = [
@@ -22,16 +20,16 @@ const PRODUCTS = [
   { id: "M6",  name: "Nướng mochi chà bông",          price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
 
   // ---- Bánh hiện đại 2D ----
-  { id: "M7",  name: "Thanh ngọc dưa gang",           price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
+  { id: "M7",  name: "Thanh ngọc dừa gang",           price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
   { id: "M8",  name: "Khoai môn",                     price: 55000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
   { id: "M9",  name: "Kem trứng chà bông",            price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
   { id: "M10", name: "Sen tuyết táo đỏ",               price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
 
   // ---- Bánh đặc biệt ----
-  { id: "M11", name: "Lava sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
+  { id: "M11", name: "Lave sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M12", name: "Tiramisu cheese",                price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M13", name: "Khoai môn mochi chà bông",      price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M14", name: "Lava trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
+  { id: "M14", name: "Lave trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M15", name: "Mochi đậu xanh ngũ hạt",        price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
 
   // ---- Set mini 6 bánh ----
@@ -42,7 +40,7 @@ const PRODUCTS = [
   { id: "M18", name: "Trà xanh lưu sa hạt điều",       price: 70000, unit: "01 bánh", icon: "🍵", category: "Bánh Healthy" },
   { id: "M19", name: "Socola lưu sa macca",            price: 75000, unit: "01 bánh", icon: "🍫", category: "Bánh Healthy" },
   { id: "M20", name: "Sầu riêng lưu sa hạnh nhân",     price: 75000, unit: "01 bánh", icon: "🌰", category: "Bánh Healthy" },
-  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rum nho", price: 80000, unit: "01 bánh", icon: "🍚", category: "Bánh Healthy" },
+  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rùm nho", price: 80000, unit: "01 bánh", icon: "🍚", category: "Bánh Healthy" },
 ];
 
 const CATEGORY_ORDER = [
