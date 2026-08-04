@@ -9,7 +9,7 @@ const CONFIG = {
   // ⚠️ TODO: paste the published CSV link for the "Bánh Trung Thu" tab here
   // (Tệp > Chia sẻ > Xuất bản lên web > chọn tab "Bánh Trung Thu" > định dạng CSV).
   // Sheet columns: A = Món (tên bánh, phải khớp với PRODUCTS bên dưới), B = Tồn kho (số lượng)
-  INVENTORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSvIeJVT0yUnBfO6dDAyRm8vn1kp38Rclyi42pKR21zp4ZW7KT-O7VVgkJYogFlwxquXHoyz7z3NaxY/pubhtml?gid=1654865179&single=true",
+  INVENTORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vSvIeJVT0yUnBfO6dDAyRm8vn1kp38Rclyi42pKR21zp4ZW7KT-O7VVgkJYogFlwxquXHoyz7z3NaxY/pub?gid=1654865179&single=true&output=csv",
 };
 
 const PRODUCTS = [
