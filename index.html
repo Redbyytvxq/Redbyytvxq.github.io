@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Red Trung Thu — Đặt bánh</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,700;0,800;1,500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Reusable mooncake-mold rosette, referenced everywhere via <use> -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="stamp" viewBox="0 0 100 100">
+    <g transform="translate(50,50)">
+      <path transform="rotate(0)"   d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(45)"  d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(90)"  d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(135)" d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(180)" d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(225)" d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(270)" d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <path transform="rotate(315)" d="M0,-8 C7,-20 7,-33 0,-42 C-7,-33 -7,-20 0,-8 Z" fill="currentColor"/>
+      <circle r="9" fill="currentColor"/>
+    </g>
+  </symbol>
+</svg>
+
+<div class="sky"></div>
+
+<header class="hero">
+  <svg class="hero__lantern hero__lantern--left" viewBox="0 0 60 90" aria-hidden="true">
+    <line x1="30" y1="0" x2="30" y2="10" stroke="currentColor" stroke-width="1.5"/>
+    <ellipse cx="30" cy="42" rx="22" ry="30" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="8" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="1"/>
+    <line x1="30" y1="72" x2="30" y2="84" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M22,84 L38,84 L34,90 L26,90 Z" fill="currentColor"/>
+  </svg>
+  <svg class="hero__lantern hero__lantern--right" viewBox="0 0 60 90" aria-hidden="true">
+    <line x1="30" y1="0" x2="30" y2="10" stroke="currentColor" stroke-width="1.5"/>
+    <ellipse cx="30" cy="42" rx="22" ry="30" fill="none" stroke="currentColor" stroke-width="2"/>
+    <line x1="8" y1="42" x2="52" y2="42" stroke="currentColor" stroke-width="1"/>
+    <line x1="30" y1="72" x2="30" y2="84" stroke="currentColor" stroke-width="1.5"/>
+    <path d="M22,84 L38,84 L34,90 L26,90 Z" fill="currentColor"/>
+  </svg>
+
+  <div class="hero__moon" aria-hidden="true">
+    <svg viewBox="0 0 100 100" class="hero__moon-glow"><circle cx="50" cy="50" r="50" fill="currentColor"/></svg>
+    <svg viewBox="0 0 100 100" class="hero__moon-stamp"><use href="#stamp"/></svg>
+  </div>
+
+  <p class="hero__eyebrow">Trung Thu 2026 &middot; Red by TVXQ</p>
+  <h1 class="hero__title">Red <span class="hero__title-accent">Trung Thu</span></h1>
+  <p class="hero__tagline">Chọn bánh, chọn set, Red gói hộp quà tròn vị cho người thương 🏮</p>
+</header>
+
+<main class="layout">
+
+  <section class="menu" aria-label="Thực đơn bánh Trung Thu">
+    <h2 class="section-title"><span class="section-title__num">01</span> Chọn bánh &amp; số lượng</h2>
+    <div id="menuByCategory"><!-- injected: category dividers + grids --></div>
+  </section>
+
+  <aside class="receipt" id="receiptCard" aria-label="Tóm tắt đơn hàng">
+    <div class="receipt__inner">
+      <p class="receipt__label"><svg class="receipt__label-icon" viewBox="0 0 100 100"><use href="#stamp"/></svg> Phiếu tạm tính</p>
+      <div class="receipt__items" id="receiptItems">
+        <p class="receipt__empty">Chưa có bánh nào được chọn</p>
+      </div>
+      <div class="receipt__divider"></div>
+      <div class="receipt__total-row">
+        <span>Tổng cộng</span>
+        <span id="receiptTotal">0đ</span>
+      </div>
+    </div>
+  </aside>
+
+  <section class="form-section" aria-label="Thông tin đặt hàng">
+    <h2 class="section-title"><span class="section-title__num">02</span> Thông tin của bạn</h2>
+
+    <form id="orderForm" novalidate>
+
+      <div class="field">
+        <label for="nameFb">Tên + nick Facebook <span class="req">*</span></label>
+        <input type="text" id="nameFb" name="nameFb" placeholder="VD: Nguyễn Thị Hạnh — fb.com/hanh.nt" required>
+      </div>
+
+      <div class="field">
+        <label for="address">Địa chỉ <span class="field__hint">(cho Red xin cả địa chỉ hành chính cũ + mới nhé)</span> <span class="req">*</span></label>
+        <textarea id="address" name="address" rows="2" placeholder="Số nhà, ngõ, phường/xã, quận/huyện, tỉnh/thành..." required></textarea>
+      </div>
+
+      <div class="field">
+        <label for="phone">Số điện thoại <span class="req">*</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="09xxxxxxxx" required>
+      </div>
+
+      <div class="field field--payment">
+        <label>Hình thức thanh toán <span class="req">*</span></label>
+        <div class="payment-options" id="paymentOptions">
+          <label class="payment-card">
+            <input type="radio" name="payment" value="Chuyển khoản SHB: 6617041999 - CTK Nguyễn Thị Hạnh" required>
+            <span class="payment-card__body">
+              <span class="payment-card__title">Chuyển khoản ngân hàng</span>
+              <span class="payment-card__detail">SHB · 6617041999 · CTK Nguyễn Thị Hạnh</span>
+            </span>
+          </label>
+          <label class="payment-card">
+            <input type="radio" name="payment" value="Ship COD (chỉ áp dụng nội thành HN)" required>
+            <span class="payment-card__body">
+              <span class="payment-card__title">Ship COD</span>
+              <span class="payment-card__detail">Chỉ áp dụng cho khách ở Hà Nội</span>
+            </span>
+          </label>
+        </div>
+      </div>
+
+      <div class="field field--bill" id="billField" hidden>
+        <label for="billUpload">Ảnh bill chuyển khoản <span class="req">*</span></label>
+        <div class="upload-box" id="uploadBox">
+          <input type="file" id="billUpload" name="billUpload" accept="image/*">
+          <div class="upload-box__prompt" id="uploadPrompt">
+            <span class="upload-box__icon">⇪</span>
+            <span>Chạm để tải ảnh bill lên (tối đa 10MB)</span>
+          </div>
+          <img class="upload-box__preview" id="uploadPreview" alt="" hidden>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notes">Ghi chú cho Red <span class="field__hint">(không bắt buộc)</span></label>
+        <textarea id="notes" name="notes" rows="2" placeholder="VD: giao giờ hành chính, gọi trước khi ship..."></textarea>
+      </div>
+
+      <button type="submit" class="submit-btn" id="submitBtn">
+        <span id="submitBtnText">Gửi đơn cho Red</span>
+      </button>
+
+      <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+
+    </form>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <p>Red Trung Thu — cảm ơn bạn đã ghé đặt bánh 🏮</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>
