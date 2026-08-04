@@ -306,7 +306,7 @@ form.addEventListener("submit", async (e) => {
   }
 
   const total = chosen.reduce((sum, p) => sum + p.price * cart[p.id], 0);
-  const itemsText = chosen.map((p) => `${p.id} - ${p.name} x${cart[p.id]}`).join("; ");
+  const itemsText = chosen.map((p) => `${p.name} x${cart[p.id]}`).join("; ");
 
   const payload = {
     nameFb: form.nameFb.value.trim(),
