@@ -33,8 +33,8 @@ const PRODUCTS = [
   { id: "M15", name: "Mochi đậu xanh ngũ hạt",        price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
 
   // ---- Set mini 6 bánh ----
-  { id: "M16", name: "Set 1 — Đóng nguyên khay 6 bánh", price: 100000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
-  { id: "M17", name: "Set 2 — Đóng riêng từng bánh",    price: 110000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
+  { id: "M16", name: "Set 1 — đóng nguyên khay 6 bánh", price: 100000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
+  { id: "M17", name: "Set 2 — đóng riêng từng bánh",    price: 110000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
 
   // ---- Bánh Healthy ----
   { id: "M18", name: "Trà xanh lưu sa hạt điều",       price: 70000, unit: "01 bánh", icon: "🍵", category: "Bánh Healthy" },
