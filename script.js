@@ -20,27 +20,27 @@ const PRODUCTS = [
   { id: "M6",  name: "Nướng mochi chà bông",          price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
 
   // ---- Bánh hiện đại 2D ----
-  { id: "M7",  name: "Thanh ngọc dừa gang",           price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
+  { id: "M7",  name: "Thanh ngọc dưa gang",           price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
   { id: "M8",  name: "Khoai môn",                     price: 55000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
   { id: "M9",  name: "Kem trứng chà bông",            price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
   { id: "M10", name: "Sen tuyết táo đỏ",               price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
 
   // ---- Bánh đặc biệt ----
-  { id: "M11", name: "Lave sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
+  { id: "M11", name: "Lava sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M12", name: "Tiramisu cheese",                price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M13", name: "Khoai môn mochi chà bông",      price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M14", name: "Lave trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
+  { id: "M14", name: "Lava trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M15", name: "Mochi đậu xanh ngũ hạt",        price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
 
   // ---- Set mini 6 bánh ----
-  { id: "M16", name: "Set 1 — đóng nguyên khay 6 bánh", price: 100000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
-  { id: "M17", name: "Set 2 — đóng riêng từng bánh",    price: 110000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
+  { id: "M16", name: "Set 1 — Đóng nguyên khay 6 bánh", price: 100000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
+  { id: "M17", name: "Set 2 — Đóng riêng từng bánh",    price: 110000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
 
   // ---- Bánh Healthy ----
   { id: "M18", name: "Trà xanh lưu sa hạt điều",       price: 70000, unit: "01 bánh", icon: "🍵", category: "Bánh Healthy" },
   { id: "M19", name: "Socola lưu sa macca",            price: 75000, unit: "01 bánh", icon: "🍫", category: "Bánh Healthy" },
   { id: "M20", name: "Sầu riêng lưu sa hạnh nhân",     price: 75000, unit: "01 bánh", icon: "🌰", category: "Bánh Healthy" },
-  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rùm nho", price: 80000, unit: "01 bánh", icon: "🍚", category: "Bánh Healthy" },
+  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rum nho", price: 80000, unit: "01 bánh", icon: "🍚", category: "Bánh Healthy" },
 ];
 
 const CATEGORY_ORDER = [
