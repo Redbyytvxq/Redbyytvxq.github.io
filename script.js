@@ -28,10 +28,10 @@ const PRODUCTS = [
   { id: "M10", name: "Sen tuyết táo đỏ",               price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
 
   // ---- Bánh đặc biệt ----
-  { id: "M11", name: "Lave sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
+  { id: "M11", name: "Lava sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M12", name: "Tiramisu cheese",                price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M13", name: "Khoai môn mochi chà bông",      price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M14", name: "Lave trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
+  { id: "M14", name: "Lava trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
   { id: "M15", name: "Mochi đậu xanh ngũ hạt",        price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
 
   // ---- Set mini 6 bánh ----
