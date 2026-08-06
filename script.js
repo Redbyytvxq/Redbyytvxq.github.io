@@ -31,7 +31,7 @@ const PRODUCTS = [
   { id: "M18", name: "Trà xanh lưu sa hạt điều",        price: 70000,  unit: "01 bánh", category: "Bánh Healthy" },
   { id: "M19", name: "Socola lưu sa macca",             price: 75000,  unit: "01 bánh", category: "Bánh Healthy" },
   { id: "M20", name: "Sầu riêng lưu sa hạnh nhân",      price: 75000,  unit: "01 bánh", category: "Bánh Healthy" },
-  { id: "M21", name: "Tuyết nướng đậu đỏ óc chó rum nho", price: 80000, unit: "01 bánh", category: "Bánh Healthy" },
+  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rum nho", price: 80000, unit: "01 bánh", category: "Bánh Healthy" },
 ];
 
 const CATEGORY_ORDER = [
