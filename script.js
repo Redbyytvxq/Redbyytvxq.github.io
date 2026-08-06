@@ -7,12 +7,16 @@ const CONFIG = {
 };
 
 const PRODUCTS = [
-  { id: "M1",  name: "Nướng dẻo đậu xanh",              price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
-  { id: "M2",  name: "Nướng dẻo khoai môn",             price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
-  { id: "M3",  name: "Nướng dẻo thập cẩm",              price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
-  { id: "M4",  name: "Nướng thập cẩm gà quay",          price: 70000,  unit: "01 bánh", category: "Bánh truyền thống" },
-  { id: "M5",  name: "Nướng dẻo cốm dừa",               price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
-  { id: "M6",  name: "Nướng mochi chà bông",            price: 70000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M1",  name: "Nướng đậu xanh",                   price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M1D", name: "Dẻo đậu xanh",                     price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M2",  name: "Nướng khoai môn",                  price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M2D", name: "Dẻo khoai môn",                    price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M3",  name: "Nướng thập cẩm",                   price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M3D", name: "Dẻo thập cẩm",                     price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M5",  name: "Nướng cốm dừa",                    price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M5D", name: "Dẻo cốm dừa",                      price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M4",  name: "Nướng thập cẩm gà quay",           price: 70000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M6",  name: "Nướng mochi chà bông",             price: 70000,  unit: "01 bánh", category: "Bánh truyền thống" },
   { id: "M7",  name: "Thanh ngọc dưa gang",             price: 60000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
   { id: "M8",  name: "Khoai môn",                       price: 55000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
   { id: "M9",  name: "Kem trứng chà bông",              price: 70000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
