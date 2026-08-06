@@ -1,46 +1,33 @@
-/* ============================================================
-   Red Trung Thu — Order form logic
-   ============================================================ */
+/* Red Trung Thu — đặt bánh
+   Cấu hình: sửa CONFIG bên dưới nếu đổi Apps Script hoặc Google Sheet tồn kho. */
 
 const CONFIG = {
-  // Standalone Trung Thu order sheet (its own Apps Script + Drive folder for bills).
   APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbxZcmoP4mpPsxPH2TTPSBbQXNdjfdTcoNDjPms9fgQtnAvmRYBVLR8fI_LqeyupMzsx/exec",
-  // Published "Tồn kho" tab of the new Trung Thu sheet, exported as CSV.
-  // Sheet columns: A = Món (tên bánh, phải khớp với PRODUCTS bên dưới), B = Tồn kho (số lượng)
   INVENTORY_CSV_URL: "https://docs.google.com/spreadsheets/d/e/2PACX-1vQdgUFGJB5vRXTghGyc4dyQAt-ueMnUlhKJjqR_4QqWuL1H1r5ZSzTmbhNYA-R8P-Ht9kud2xu5fD7S/pub?gid=1654865179&single=true&output=csv",
 };
 
 const PRODUCTS = [
-  // ---- Bánh truyền thống ----
-  { id: "M1",  name: "Nướng dẻo đậu xanh",           price: 55000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
-  { id: "M2",  name: "Nướng dẻo khoai môn",           price: 55000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
-  { id: "M3",  name: "Nướng dẻo thập cẩm",            price: 65000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
-  { id: "M4",  name: "Nướng thập cẩm gà quay",        price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
-  { id: "M5",  name: "Nướng dẻo cốm dừa",             price: 65000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
-  { id: "M6",  name: "Nướng mochi chà bông",          price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh truyền thống" },
-
-  // ---- Bánh hiện đại 2D ----
-  { id: "M7",  name: "Thanh ngọc dưa gang",           price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
-  { id: "M8",  name: "Khoai môn",                     price: 55000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
-  { id: "M9",  name: "Kem trứng chà bông",            price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
-  { id: "M10", name: "Sen tuyết táo đỏ",               price: 70000, unit: "01 bánh", icon: "🥮", category: "Bánh hiện đại 2D" },
-
-  // ---- Bánh đặc biệt ----
-  { id: "M11", name: "Lava sen cốm dừa",              price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M12", name: "Tiramisu cheese",                price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M13", name: "Khoai môn mochi chà bông",      price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M14", name: "Lava trứng chảy",               price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-  { id: "M15", name: "Mochi đậu xanh ngũ hạt",        price: 60000, unit: "01 bánh", icon: "🥮", category: "Bánh đặc biệt" },
-
-  // ---- Set mini 6 bánh ----
-  { id: "M16", name: "Set 1 — đóng nguyên khay 6 bánh", price: 100000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
-  { id: "M17", name: "Set 2 — đóng riêng từng bánh",    price: 110000, unit: "01 hộp", icon: "🎁", category: "Set mini 6 bánh" },
-
-  // ---- Bánh Healthy ----
-  { id: "M18", name: "Trà xanh lưu sa hạt điều",       price: 70000, unit: "01 bánh", icon: "🍵", category: "Bánh Healthy" },
-  { id: "M19", name: "Socola lưu sa macca",            price: 75000, unit: "01 bánh", icon: "🍫", category: "Bánh Healthy" },
-  { id: "M20", name: "Sầu riêng lưu sa hạnh nhân",     price: 75000, unit: "01 bánh", icon: "🌰", category: "Bánh Healthy" },
-  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rum nho", price: 80000, unit: "01 bánh", icon: "🍚", category: "Bánh Healthy" },
+  { id: "M1",  name: "Nướng dẻo đậu xanh",              price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M2",  name: "Nướng dẻo khoai môn",             price: 55000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M3",  name: "Nướng dẻo thập cẩm",              price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M4",  name: "Nướng thập cẩm gà quay",          price: 70000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M5",  name: "Nướng dẻo cốm dừa",               price: 65000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M6",  name: "Nướng mochi chà bông",            price: 70000,  unit: "01 bánh", category: "Bánh truyền thống" },
+  { id: "M7",  name: "Thanh ngọc dưa gang",             price: 60000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
+  { id: "M8",  name: "Khoai môn",                       price: 55000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
+  { id: "M9",  name: "Kem trứng chà bông",              price: 70000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
+  { id: "M10", name: "Sen tuyết táo đỏ",                price: 70000,  unit: "01 bánh", category: "Bánh hiện đại 2D" },
+  { id: "M11", name: "Lava sen cốm dừa",                price: 60000,  unit: "01 bánh", category: "Bánh đặc biệt" },
+  { id: "M12", name: "Tiramisu cheese",                 price: 60000,  unit: "01 bánh", category: "Bánh đặc biệt" },
+  { id: "M13", name: "Khoai môn mochi chà bông",        price: 60000,  unit: "01 bánh", category: "Bánh đặc biệt" },
+  { id: "M14", name: "Lava trứng chảy",                 price: 60000,  unit: "01 bánh", category: "Bánh đặc biệt" },
+  { id: "M15", name: "Mochi đậu xanh ngũ hạt",          price: 60000,  unit: "01 bánh", category: "Bánh đặc biệt" },
+  { id: "M16", name: "Set 1 — đóng nguyên khay 6 bánh", price: 100000, unit: "01 hộp",  category: "Set mini 6 bánh" },
+  { id: "M17", name: "Set 2 — đóng riêng từng bánh",    price: 110000, unit: "01 hộp",  category: "Set mini 6 bánh" },
+  { id: "M18", name: "Trà xanh lưu sa hạt điều",        price: 70000,  unit: "01 bánh", category: "Bánh Healthy" },
+  { id: "M19", name: "Socola lưu sa macca",             price: 75000,  unit: "01 bánh", category: "Bánh Healthy" },
+  { id: "M20", name: "Sầu riêng lưu sa hạnh nhân",      price: 75000,  unit: "01 bánh", category: "Bánh Healthy" },
+  { id: "M21", name: "Tuyết nước đậu đỏ óc chó rum nho", price: 80000, unit: "01 bánh", category: "Bánh Healthy" },
 ];
 
 const CATEGORY_ORDER = [
@@ -51,283 +38,266 @@ const CATEGORY_ORDER = [
   "Bánh Healthy",
 ];
 
-const cart = {}; // { M1: qty }
+const cart = {};
+const stock = {};
+let bill = { base64: null, mime: null, name: null };
 
+const $ = (sel, root = document) => root.querySelector(sel);
 const fmtVND = (n) => n.toLocaleString("vi-VN") + "đ";
-
-/* ---------------- inventory sync ---------------- */
+const iconFor = (p) => (p.category === "Set mini 6 bánh" ? "🎁" : "🥮");
 
 function normalizeName(s) {
-  return (s || "")
-    .toString()
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .replace(/đ/g, "d")
-    .replace(/\s+/g, " ");
+  return (s || "").toString().trim().toLowerCase().normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d").replace(/\s+/g, " ");
 }
 
 function parseCsv(text) {
-  const rows = [];
-  let row = [];
-  let field = "";
-  let inQuotes = false;
+  const rows = []; let row = []; let field = ""; let inQuotes = false;
   for (let i = 0; i < text.length; i++) {
     const c = text[i];
     if (inQuotes) {
-      if (c === '"') {
-        if (text[i + 1] === '"') { field += '"'; i++; }
-        else { inQuotes = false; }
-      } else {
-        field += c;
-      }
-    } else {
-      if (c === '"') inQuotes = true;
-      else if (c === ",") { row.push(field); field = ""; }
-      else if (c === "\n" || c === "\r") {
-        if (c === "\r" && text[i + 1] === "\n") i++;
-        row.push(field); field = "";
-        rows.push(row); row = [];
-      } else field += c;
-    }
+      if (c === '"') { if (text[i + 1] === '"') { field += '"'; i++; } else inQuotes = false; }
+      else field += c;
+    } else if (c === '"') inQuotes = true;
+    else if (c === ",") { row.push(field); field = ""; }
+    else if (c === "\n" || c === "\r") {
+      if (c === "\r" && text[i + 1] === "\n") i++;
+      row.push(field); field = ""; rows.push(row); row = [];
+    } else field += c;
   }
   if (field.length || row.length) { row.push(field); rows.push(row); }
   return rows.filter((r) => r.some((c) => c.trim() !== ""));
 }
 
+/* ---------- render menu ---------- */
+
+const STAMP = '<svg viewBox="0 0 100 100" aria-hidden="true"><use href="#stamp"></use></svg>';
+
+function buildMenu() {
+  const menu = $("#menu");
+  const frag = document.createDocumentFragment();
+
+  CATEGORY_ORDER.forEach((cat) => {
+    const items = PRODUCTS.filter((p) => p.category === cat);
+    if (!items.length) return;
+
+    const head = document.createElement("div");
+    head.className = "cat-head";
+    head.innerHTML = STAMP + '<span class="name"></span><span class="fill"></span>';
+    $(".name", head).textContent = cat;
+    frag.appendChild(head);
+
+    const grid = document.createElement("div");
+    grid.className = "grid";
+
+    items.forEach((p) => {
+      const card = document.createElement("article");
+      card.className = "card";
+      card.dataset.id = p.id;
+      card.innerHTML =
+        '<div class="ribbon"></div>' +
+        '<div class="medallion-wrap"><div class="medallion" aria-hidden="true"></div></div>' +
+        '<div class="body">' +
+          '<p class="name"></p>' +
+          '<span class="stock" hidden></span>' +
+          '<div class="price-row"><span class="price"></span><span class="unit"></span></div>' +
+        "</div>" +
+        '<div class="stepper">' +
+          '<button type="button" class="minus" aria-label="Giảm số lượng">–</button>' +
+          '<span class="qty">0</span>' +
+          '<button type="button" class="plus" aria-label="Tăng số lượng">+</button>' +
+        "</div>";
+
+      $(".medallion", card).textContent = iconFor(p);
+      $(".name", card).textContent = p.name;
+      $(".price", card).textContent = fmtVND(p.price);
+      $(".unit", card).textContent = "/ " + p.unit;
+      $(".minus", card).addEventListener("click", () => step(p.id, -1));
+      $(".plus", card).addEventListener("click", () => step(p.id, 1));
+
+      grid.appendChild(card);
+    });
+
+    frag.appendChild(grid);
+  });
+
+  menu.appendChild(frag);
+}
+
+function step(id, delta) {
+  const max = stock[id];
+  let next = (cart[id] || 0) + delta;
+  if (next < 0) next = 0;
+  if (typeof max === "number" && next > max) next = max;
+  cart[id] = next;
+  renderCards();
+  renderReceipt();
+}
+
+function renderCards() {
+  PRODUCTS.forEach((p) => {
+    const card = document.querySelector('.card[data-id="' + p.id + '"]');
+    if (!card) return;
+    const qty = cart[p.id] || 0;
+    const st = stock[p.id];
+    const soldOut = st === 0;
+
+    card.classList.toggle("sold-out", soldOut);
+    $(".minus", card).disabled = soldOut;
+    $(".plus", card).disabled = soldOut;
+
+    const qtyEl = $(".qty", card);
+    qtyEl.textContent = qty;
+    qtyEl.classList.toggle("active", qty > 0);
+
+    const stockEl = $(".stock", card);
+    if (soldOut) {
+      stockEl.hidden = false; stockEl.textContent = "Hết hàng"; stockEl.classList.add("out");
+    } else if (typeof st === "number") {
+      stockEl.hidden = false; stockEl.textContent = "Còn " + Math.max(0, st - qty); stockEl.classList.remove("out");
+    } else {
+      stockEl.hidden = true;
+    }
+  });
+}
+
+function chosenItems() {
+  return PRODUCTS.filter((p) => (cart[p.id] || 0) > 0);
+}
+
+function renderReceipt() {
+  const chosen = chosenItems();
+  const list = $("#receiptLines");
+  const empty = $("#receiptEmpty");
+  list.innerHTML = "";
+  empty.hidden = chosen.length > 0;
+
+  chosen.forEach((p) => {
+    const row = document.createElement("div");
+    row.className = "line";
+    row.innerHTML = '<span class="n"></span><span class="q"></span><span class="s"></span>';
+    $(".n", row).textContent = p.name;
+    $(".q", row).textContent = "×" + cart[p.id];
+    $(".s", row).textContent = fmtVND(p.price * cart[p.id]);
+    list.appendChild(row);
+  });
+
+  const total = chosen.reduce((sum, p) => sum + p.price * cart[p.id], 0);
+  $("#total").textContent = fmtVND(total);
+}
+
+/* ---------- inventory sync ---------- */
+
 async function syncInventory() {
-  if (!CONFIG.INVENTORY_CSV_URL || CONFIG.INVENTORY_CSV_URL.includes("PASTE_YOUR")) return;
   try {
     const res = await fetch(CONFIG.INVENTORY_CSV_URL, { cache: "no-store" });
     if (!res.ok) throw new Error("Không tải được file tồn kho");
-    const text = await res.text();
-    const rows = parseCsv(text);
+    const rows = parseCsv(await res.text());
     if (!rows.length) return;
 
-    const dataRows = rows.slice(1); // skip header row
-    const stockByName = {};
-    dataRows.forEach((r) => {
+    const byName = {};
+    rows.slice(1).forEach((r) => {
       const name = normalizeName(r[0]);
       const qty = parseInt((r[1] || "0").toString().replace(/[^\d-]/g, ""), 10);
-      if (name) stockByName[name] = isNaN(qty) ? 0 : qty;
+      if (name) byName[name] = isNaN(qty) ? 0 : qty;
     });
 
     PRODUCTS.forEach((p) => {
-      const key = normalizeName(p.name);
-      if (Object.prototype.hasOwnProperty.call(stockByName, key)) {
-        p.stock = stockByName[key];
-        p.soldOut = stockByName[key] <= 0;
-      }
+      const k = normalizeName(p.name);
+      if (Object.prototype.hasOwnProperty.call(byName, k)) stock[p.id] = byName[k];
     });
+
+    renderCards();
   } catch (err) {
     console.error("Lỗi đồng bộ tồn kho:", err);
   }
 }
 
-/* ---------------- render menu (grouped by category) ---------------- */
+/* ---------- form ---------- */
 
-const menuByCategory = document.getElementById("menuByCategory");
-
-function dishCardHTML(p) {
-  const stockBadge = p.soldOut
-    ? ' <span class="dish__badge" style="color:#DB6B52;">(Hết hàng)</span>'
-    : (typeof p.stock === "number" ? ` <span class="dish__badge" id="stock-${p.id}" style="color:#9FD9AE;">(Còn ${Math.max(0, p.stock - (cart[p.id] || 0))})</span>` : "");
-
-  return `
-    <div class="dish${p.soldOut ? " dish--soldout" : ""}">
-      <div class="dish__roundel" aria-hidden="true">${p.icon}</div>
-      <div class="dish__body">
-        <p class="dish__name">${p.name}${stockBadge}</p>
-        <span class="dish__price">${fmtVND(p.price)}</span><span class="dish__unit">/ ${p.unit}</span>
-      </div>
-      <div class="qty-stepper">
-        <button type="button" class="qty-btn" data-action="dec" data-id="${p.id}" aria-label="Giảm số lượng ${p.name}" ${p.soldOut ? "disabled" : ""}>–</button>
-        <span class="qty-value" id="qty-${p.id}" data-qty-nonzero="false">0</span>
-        <button type="button" class="qty-btn" data-action="inc" data-id="${p.id}" aria-label="Tăng số lượng ${p.name}" ${p.soldOut ? "disabled" : ""}>+</button>
-      </div>
-    </div>`;
+function setStatus(text, state) {
+  const el = $("#status");
+  el.textContent = text;
+  el.className = "status" + (state ? " " + state : "");
 }
 
-function renderMenu() {
-  menuByCategory.innerHTML = CATEGORY_ORDER.map((cat) => {
-    const items = PRODUCTS.filter((p) => p.category === cat);
-    if (!items.length) return "";
-    return `
-      <div class="category">
-        <svg class="category__icon" viewBox="0 0 100 100"><use href="#stamp"/></svg>
-        <span class="category__label">${cat}</span>
-        <span class="category__rule"></span>
-      </div>
-      <div class="menu__grid">
-        ${items.map(dishCardHTML).join("")}
-      </div>`;
-  }).join("");
+function onPaymentChange(e) {
+  if (e.target.name !== "payment") return;
+  const isBank = e.target.value.indexOf("Chuyển khoản") === 0;
+  $("#billField").hidden = !isBank;
+  $("#billUpload").required = isBank;
+  if (!isBank) resetBill();
 }
 
-menuByCategory.addEventListener("click", (e) => {
-  const btn = e.target.closest(".qty-btn");
-  if (!btn || btn.disabled) return;
-  const id = btn.dataset.id;
-  const product = PRODUCTS.find((p) => p.id === id);
-  if (product && product.soldOut) return;
-  const current = cart[id] || 0;
-
-  let next;
-  if (btn.dataset.action === "inc") {
-    if (product && typeof product.stock === "number" && current >= product.stock) return;
-    next = current + 1;
-  } else {
-    next = Math.max(0, current - 1);
-  }
-
-  cart[id] = next;
-  document.getElementById(`qty-${id}`).textContent = next;
-  document.getElementById(`qty-${id}`).dataset.qtyNonzero = next > 0 ? "true" : "false";
-
-  if (product && typeof product.stock === "number") {
-    const badge = document.getElementById(`stock-${id}`);
-    if (badge) badge.textContent = `(Còn ${Math.max(0, product.stock - next)})`;
-  }
-
-  renderReceipt();
-});
-
-/* ---------------- receipt ---------------- */
-
-const receiptItems = document.getElementById("receiptItems");
-const receiptTotal = document.getElementById("receiptTotal");
-
-function renderReceipt() {
-  const chosen = PRODUCTS.filter((p) => cart[p.id] > 0);
-  if (chosen.length === 0) {
-    receiptItems.innerHTML = `<p class="receipt__empty">Chưa có bánh nào được chọn</p>`;
-    receiptTotal.textContent = fmtVND(0);
-    return;
-  }
-  let total = 0;
-  receiptItems.innerHTML = chosen
-    .map((p) => {
-      const qty = cart[p.id];
-      const sub = qty * p.price;
-      total += sub;
-      return `
-        <div class="receipt__item">
-          <span class="receipt__item-name">${p.name}</span>
-          <span class="receipt__item-qty">×${qty}</span>
-          <span class="receipt__item-sub">${fmtVND(sub)}</span>
-        </div>`;
-    })
-    .join("");
-  receiptTotal.textContent = fmtVND(total);
+function resetBill() {
+  bill = { base64: null, mime: null, name: null };
+  const input = $("#billUpload");
+  if (input) input.value = "";
+  $("#billPreview").hidden = true;
+  $("#billPreview").removeAttribute("src");
+  $("#billPrompt").hidden = false;
 }
 
-/* ---------------- payment / bill upload ---------------- */
-
-const paymentOptions = document.getElementById("paymentOptions");
-const billField = document.getElementById("billField");
-const billUpload = document.getElementById("billUpload");
-const uploadPrompt = document.getElementById("uploadPrompt");
-const uploadPreview = document.getElementById("uploadPreview");
-
-let billBase64 = null;
-let billMimeType = null;
-let billFileName = null;
-
-paymentOptions.addEventListener("change", (e) => {
-  const isBank = e.target.value.startsWith("Chuyển khoản");
-  billField.hidden = !isBank;
-  billUpload.required = isBank;
-  if (!isBank) {
-    billUpload.value = "";
-    billBase64 = null;
-    uploadPreview.hidden = true;
-    uploadPrompt.hidden = false;
-  }
-});
-
-billUpload.addEventListener("change", () => {
-  const file = billUpload.files[0];
+function onBillChange(e) {
+  const file = e.target.files[0];
   if (!file) return;
   if (file.size > 10 * 1024 * 1024) {
     alert("Ảnh bill vượt quá 10MB, bạn chọn ảnh nhỏ hơn giúp Red nhé.");
-    billUpload.value = "";
+    e.target.value = "";
     return;
   }
-  billMimeType = file.type;
-  billFileName = file.name;
   const reader = new FileReader();
   reader.onload = () => {
-    billBase64 = reader.result.split(",")[1];
-    uploadPreview.src = reader.result;
-    uploadPreview.hidden = false;
-    uploadPrompt.hidden = true;
+    bill = { base64: reader.result.split(",")[1], mime: file.type, name: file.name };
+    const img = $("#billPreview");
+    img.src = reader.result;
+    img.hidden = false;
+    $("#billPrompt").hidden = true;
   };
   reader.readAsDataURL(file);
-});
-
-/* ---------------- submit ---------------- */
-
-const form = document.getElementById("orderForm");
-const submitBtn = document.getElementById("submitBtn");
-const submitBtnText = document.getElementById("submitBtnText");
-const formStatus = document.getElementById("formStatus");
-
-function setStatus(text, state) {
-  formStatus.textContent = text;
-  formStatus.dataset.state = state || "";
 }
 
-form.addEventListener("submit", async (e) => {
+async function onSubmit(e) {
   e.preventDefault();
+  const form = e.target;
   setStatus("", "");
 
-  const chosen = PRODUCTS.filter((p) => cart[p.id] > 0);
-  if (chosen.length === 0) {
+  const chosen = chosenItems();
+  if (!chosen.length) {
     setStatus("Bạn chưa chọn bánh nào ở phần thực đơn phía trên nhé!", "err");
-    document.querySelector(".menu").scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-
   if (!form.reportValidity()) return;
 
-  const nowSoldOut = chosen.find((p) => p.soldOut);
-  if (nowSoldOut) {
-    setStatus(`"${nowSoldOut.name}" vừa hết hàng, bạn bỏ món này khỏi đơn giúp Red nhé!`, "err");
+  const soldOut = chosen.find((p) => stock[p.id] === 0);
+  if (soldOut) {
+    setStatus('"' + soldOut.name + '" vừa hết hàng, bạn bỏ món này khỏi đơn giúp Red nhé!', "err");
     return;
   }
 
   const paymentEl = form.querySelector('input[name="payment"]:checked');
-  const isBank = paymentEl.value.startsWith("Chuyển khoản");
-  if (isBank && !billBase64) {
+  const isBank = paymentEl.value.indexOf("Chuyển khoản") === 0;
+  if (isBank && !bill.base64) {
     setStatus("Bạn chuyển khoản thì nhớ đính kèm ảnh bill giúp Red nhé!", "err");
-    billField.scrollIntoView({ behavior: "smooth", block: "center" });
     return;
   }
-
-  const total = chosen.reduce((sum, p) => sum + p.price * cart[p.id], 0);
-  const itemsText = chosen.map((p) => `${p.name} x${cart[p.id]}`).join("; ");
 
   const payload = {
     nameFb: form.nameFb.value.trim(),
     address: form.address.value.trim(),
     phone: form.phone.value.trim(),
-    items: itemsText,
-    total: total,
+    items: chosen.map((p) => p.name + " x" + cart[p.id]).join("; "),
+    total: chosen.reduce((sum, p) => sum + p.price * cart[p.id], 0),
     payment: paymentEl.value,
     notes: form.notes.value.trim(),
-    billBase64: billBase64 || "",
-    billMimeType: billMimeType || "",
-    billFileName: billFileName || "",
+    billBase64: bill.base64 || "",
+    billMimeType: bill.mime || "",
+    billFileName: bill.name || "",
   };
 
-  if (CONFIG.APPS_SCRIPT_URL.includes("PASTE_YOUR")) {
-    setStatus("Chưa cấu hình APPS_SCRIPT_URL trong script.js — xem hướng dẫn trong README.", "err");
-    return;
-  }
-
-  submitBtn.disabled = true;
-  submitBtnText.textContent = "Đang gửi...";
+  const btn = $("#submitBtn");
+  btn.disabled = true;
+  btn.textContent = "Đang gửi...";
   setStatus("Đang gửi đơn cho Red, đợi bạn một chút nhé...", "busy");
 
   try {
@@ -338,38 +308,31 @@ form.addEventListener("submit", async (e) => {
       body: JSON.stringify(payload),
     });
 
-    setStatus("Đã gửi đơn thành công! Red sẽ liên hệ xác nhận sớm nhất 🏮", "ok");
     form.reset();
-    Object.keys(cart).forEach((id) => {
-      cart[id] = 0;
-      const el = document.getElementById(`qty-${id}`);
-      if (el) { el.textContent = "0"; el.dataset.qtyNonzero = "false"; }
-      const product = PRODUCTS.find((p) => p.id === id);
-      if (product && typeof product.stock === "number") {
-        const badge = document.getElementById(`stock-${id}`);
-        if (badge) badge.textContent = `(Còn ${Math.max(0, product.stock)})`;
-      }
-    });
+    Object.keys(cart).forEach((k) => delete cart[k]);
+    resetBill();
+    $("#billField").hidden = true;
+    renderCards();
     renderReceipt();
-    billField.hidden = true;
-    billBase64 = null;
-    uploadPreview.hidden = true;
-    uploadPrompt.hidden = false;
+    setStatus("Đã gửi đơn thành công! Red sẽ liên hệ xác nhận sớm nhất 🏮", "ok");
   } catch (err) {
     console.error(err);
     setStatus("Có lỗi khi gửi đơn, bạn thử lại hoặc nhắn trực tiếp cho Red nhé.", "err");
   } finally {
-    submitBtn.disabled = false;
-    submitBtnText.textContent = "Gửi đơn cho Red";
+    btn.disabled = false;
+    btn.textContent = "Gửi đơn cho Red";
   }
-});
+}
 
-/* ---------------- init ---------------- */
+/* ---------- init ---------- */
 
-renderMenu();
-renderReceipt();
-
-syncInventory().then(() => {
-  renderMenu();
+document.addEventListener("DOMContentLoaded", () => {
+  buildMenu();
+  renderCards();
   renderReceipt();
+  syncInventory();
+
+  $("#payOptions").addEventListener("change", onPaymentChange);
+  $("#billUpload").addEventListener("change", onBillChange);
+  $("#orderForm").addEventListener("submit", onSubmit);
 });
